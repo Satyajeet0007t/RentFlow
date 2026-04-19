@@ -1,0 +1,133 @@
+@import "tailwindcss";
+
+:root {
+  font-family:
+    "Inter",
+    system-ui,
+    -apple-system,
+    sans-serif;
+  background-color: #000000;
+  color: #ffffff;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  margin: 0;
+  background-color: #000000;
+  /* Adds a very subtle "Hero" grain to the background */
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3BaseFilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/baseFilter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  background-attachment: fixed;
+  opacity: 0.98;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* --- HERO DEPTH UTILITIES --- */
+
+@layer utilities {
+  .perspective-1000 {
+    /* The "Stage" height for 3D depth */
+    perspective: 1000px;
+    /* Forces children to stay in 3D space during rotation */
+    transform-style: preserve-3d;
+  }
+
+  /* Custom Scrollbar for the Security Requests list */
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 4px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 10px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(59, 130, 246, 0.2);
+    border-radius: 10px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(59, 130, 246, 0.5);
+  }
+}
+
+/* --- CORE ANIMATIONS --- */
+
+.smooth-hover {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes qclayFade {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animate-qclay {
+  animation: qclayFade 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  opacity: 0;
+}
+
+/* --- REFINED STAGGER DELAYS --- */
+.delay-1 {
+  animation-delay: 0.1s;
+}
+.delay-2 {
+  animation-delay: 0.2s;
+}
+.delay-3 {
+  animation-delay: 0.3s;
+}
+.delay-4 {
+  animation-delay: 0.4s;
+}
+
+/* Optional: Subtle pulse for the "Intelligence" dots */
+@keyframes soft-glow {
+  0%,
+  100% {
+    opacity: 0.8;
+    filter: blur(8px);
+  }
+  50% {
+    opacity: 1;
+    filter: blur(12px);
+  }
+}
+
+.intelligence-glow {
+  animation: soft-glow 3s infinite ease-in-out;
+}
+
+/* Hide default cursor on desktop */
+@media (min-width: 768px) {
+  html,
+  body {
+    cursor: none;
+  }
+
+  /* Ensure interactive elements also hide the cursor */
+  a,
+  button,
+  [role="button"],
+  .cursor-pointer {
+    cursor: none;
+  }
+}
+
+/* Optional: Add a subtle glow to the cursor itself */
+.magic-cursor-glow {
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
+}
+
+@layer utilities {
+  .backface-hidden {
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+}
