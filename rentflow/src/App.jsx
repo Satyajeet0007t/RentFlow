@@ -3,6 +3,7 @@ import "./theme.css";
 import { RefreshCcw } from "lucide-react";
 import { usePropertyData } from "./hooks/usePropertyData";
 import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
+import { useState, useEffect } from "react";
 
 // Components
 import Navbar from "./components/layout/Navbar";
@@ -22,6 +23,15 @@ function App() {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const role = localStorage.getItem("userRole");
+
+  // Create a helper object so your existing button code doesn't break
+  const user = role ? { role: role } : null;
+  // Add this line
+  const isManager = user?.role?.toLowerCase() === "manager";
+
+  console.log("Detected Role from Storage:", role);
+
   const {
     isModalOpen,
     setIsModalOpen,
@@ -35,6 +45,9 @@ function App() {
 
   // HIDE NAVBAR LOGIC: We don't want the navbar showing on the login screen
   const isLoginPage = currentPath === "/login";
+
+  console.log("Full User Object:", user);
+  console.log("Role Check:", user?.role);
 
   return (
     <div className="relative min-h-screen">
@@ -92,14 +105,24 @@ function App() {
 
                 <div className="mt-20 mb-12 flex justify-end">
                   <button
-                    onClick={() => setIsModalOpen(true)}
-                    className="group cursor-pointer flex items-center gap-4 px-10 py-5 bg-blue-600 text-white rounded-full font-black text-[10px] uppercase tracking-[0.3em] transition-all shadow-[0_0_25px_rgba(37,99,235,0.3)] hover:shadow-[0_0_40px_rgba(37,99,235,0.5)] hover:bg-blue-500 active:scale-95"
+                    onClick={() => isManager && setIsModalOpen(true)}
+                    disabled={!isManager}
+                    className={`group flex items-center gap-4 px-10 py-5 rounded-full font-black text-[10px] uppercase tracking-[0.3em] transition-all 
+      ${
+        isManager
+          ? "bg-blue-600 text-white cursor-pointer shadow-[0_0_25px_rgba(37,99,235,0.3)] hover:shadow-[0_0_40px_rgba(37,99,235,0.5)] hover:bg-blue-500 active:scale-95"
+          : "bg-slate-800 text-slate-500 cursor-not-allowed opacity-60 border border-slate-700"
+      }`}
                   >
                     <RefreshCcw
                       size={16}
-                      className="group-hover:rotate-180 transition-transform duration-700"
+                      className={
+                        isManager
+                          ? "group-hover:rotate-180 transition-transform duration-700"
+                          : ""
+                      }
                     />
-                    Update Status
+                    {isManager ? "Update Status" : "Status Locked"}
                   </button>
                 </div>
 

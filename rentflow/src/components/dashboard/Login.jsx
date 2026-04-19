@@ -110,6 +110,11 @@ const Login = () => {
         localStorage.setItem("userRole", "manager");
         localStorage.setItem("isLoggedIn", "true");
 
+        localStorage.setItem(
+          "user",
+          JSON.stringify({ role: "manager", email: cleanEmail }),
+        );
+
         console.log("Master Access Granted: Manager Console Activated.");
         navigate("/profile");
         setLoading(false);
@@ -201,6 +206,11 @@ const Login = () => {
           );
           localStorage.setItem("userRole", user.role || "resident");
           localStorage.setItem("isLoggedIn", "true");
+
+          localStorage.setItem(
+            "user",
+            JSON.stringify({ role: user.role || "resident" }),
+          );
 
           navigate("/profile");
         } else {
