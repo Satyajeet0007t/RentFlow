@@ -154,7 +154,7 @@ const Login = () => {
 
       try {
         const res = await fetch(
-          `${import.meta.env.VITE_API_URL || "${import.meta.env.VITE_API_URL}"}//api/login/signup`,
+          `${import.meta.env.VITE_API_URL || "${import.meta.env.VITE_API_URL}"}/api/login/signup`,
           {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -185,7 +185,7 @@ const Login = () => {
         }
 
         const res = await fetch(
-          `${import.meta.env.VITE_API_URL || "${import.meta.env.VITE_API_URL}"}//api/login/signin`,
+          `${import.meta.env.VITE_API_URL || "${import.meta.env.VITE_API_URL}"}/api/login/signin`,
           {
             method: "POST",
             headers: { "Content-Type": "application/json" },
