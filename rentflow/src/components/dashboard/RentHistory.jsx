@@ -90,7 +90,9 @@ export default function RentHistory() {
   const fetchHistory = async () => {
     try {
       setLoading(true);
-      const res = await axios.get("http://localhost:5000/api/transactions");
+      const res = await axios.get(
+        `${import.meta.env.VITE_API_URL}/api/transactions`,
+      );
       console.log("Raw Data from Server:", res.data); // CHECK THIS IN CONSOLE
 
       // If res.data is an array, use it. If it's an object with a property, use that.
@@ -114,10 +116,13 @@ export default function RentHistory() {
   const handleMarkPayment = async (id, utrValue = "MANUAL") => {
     try {
       const today = new Date().toLocaleDateString("en-IN");
-      await axios.patch(`http://localhost:5000/api/transactions/${id}`, {
-        utr: utrValue,
-        paidAt: today,
-      });
+      await axios.patch(
+        `${import.meta.env.VITE_API_URL}/api/transactions/${id}`,
+        {
+          utr: utrValue,
+          paidAt: today,
+        },
+      );
       fetchHistory();
       setIsQRModalOpen(false);
     } catch (err) {
@@ -129,7 +134,7 @@ export default function RentHistory() {
     if (window.confirm("Reverse this payment to Pending?")) {
       try {
         await axios.patch(
-          `http://localhost:5000/api/transactions/revert/${id}`,
+          `${import.meta.env.VITE_API_URL}/api/transactions/revert/${id}`,
         );
         fetchHistory();
       } catch (err) {
@@ -140,7 +145,9 @@ export default function RentHistory() {
   };
   const handleDelete = async (id) => {
     if (window.confirm("Delete this bill record permanently?")) {
-      await axios.delete(`http://localhost:5000/api/transactions/${id}`);
+      await axios.delete(
+        `${import.meta.env.VITE_API_URL}/api/transactions/${id}`,
+      );
       fetchHistory();
     }
   };
@@ -157,7 +164,7 @@ export default function RentHistory() {
       };
 
       const response = await axios.post(
-        "http://localhost:5000/api/transactions",
+        `${import.meta.env.VITE_API_URL}/api/transactions`,
         payload,
       );
 

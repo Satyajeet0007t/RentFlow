@@ -29,7 +29,9 @@ export default function NoticeBoard({ selectedWing = "Wing A" }) {
   const fetchNotices = async () => {
     try {
       setLoading(true);
-      const res = await axios.get("http://localhost:5000/api/notices");
+      const res = await axios.get(
+        `${import.meta.env.VITE_API_URL}/api/notices`,
+      );
       setNotices(res.data);
     } catch (err) {
       console.error("OS Sync Failed:", err);
@@ -44,7 +46,7 @@ export default function NoticeBoard({ selectedWing = "Wing A" }) {
 
   const handleSaveNotice = async (data) => {
     try {
-      await axios.post("http://localhost:5000/api/notices", data);
+      await axios.post(`${import.meta.env.VITE_API_URL}/api/notices`, data);
       setIsModalOpen(false);
       fetchNotices();
     } catch (err) {
@@ -55,7 +57,7 @@ export default function NoticeBoard({ selectedWing = "Wing A" }) {
   const deleteNotice = async (id) => {
     if (window.confirm("Purge this broadcast?")) {
       try {
-        await axios.delete(`http://localhost:5000/api/notices/${id}`);
+        await axios.delete(`${import.meta.env.VITE_API_URL}/api/notices/${id}`);
         fetchNotices();
       } catch (err) {
         console.error(err);

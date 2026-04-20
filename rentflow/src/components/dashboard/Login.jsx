@@ -154,7 +154,7 @@ const Login = () => {
 
       try {
         const res = await fetch(
-          `${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/login/signup`,
+          `${import.meta.env.VITE_API_URL || "${import.meta.env.VITE_API_URL}"}//api/login/signup`,
           {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -185,7 +185,7 @@ const Login = () => {
         }
 
         const res = await fetch(
-          `${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/login/signin`,
+          `${import.meta.env.VITE_API_URL || "${import.meta.env.VITE_API_URL}"}//api/login/signin`,
           {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -229,7 +229,7 @@ const Login = () => {
 
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/login/forgot-password-request",
+        `${import.meta.env.VITE_API_URL}/api/login/forgot-password-request`,
         {
           email: email,
         },

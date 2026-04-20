@@ -110,7 +110,9 @@ export default function BookingHub({ initialWing, wingStats = [] }) {
   }, [location.state, initialWing, wingStats]);
   const fetchBookings = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/bookings");
+      const res = await axios.get(
+        `${import.meta.env.VITE_API_URL}/api/bookings`,
+      );
       const data = Array.isArray(res.data) ? res.data : res.data.bookings || [];
       setBookingData(data);
     } catch (err) {
@@ -143,7 +145,7 @@ export default function BookingHub({ initialWing, wingStats = [] }) {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/bookings",
+        `${import.meta.env.VITE_API_URL}/api/bookings`,
         payload,
       );
       if (response.status === 201 || response.status === 200) {

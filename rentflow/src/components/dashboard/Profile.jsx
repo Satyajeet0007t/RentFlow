@@ -57,7 +57,7 @@ export default function Profile() {
       if (role === "manager") {
         try {
           const res = await axios.get(
-            "http://localhost:5000/api/login/reset-requests",
+            `${import.meta.env.VITE_API_URL}/api/login/reset-requests`,
           );
           setRequests(res.data);
         } catch (err) {
@@ -103,19 +103,19 @@ export default function Profile() {
       const [transRes, maintRes, bookRes, noticeRes, propRes] =
         await Promise.all([
           axios
-            .get("http://localhost:5000/api/transactions")
+            .get(`${import.meta.env.VITE_API_URL}/api/transactions`)
             .catch(() => ({ data: [] })),
           axios
-            .get("http://localhost:5000/api/maintenance")
+            .get(`${import.meta.env.VITE_API_URL}/api/maintenance`)
             .catch(() => ({ data: [] })),
           axios
-            .get("http://localhost:5000/api/bookings")
+            .get(`${import.meta.env.VITE_API_URL}/api/bookings`)
             .catch(() => ({ data: [] })),
           axios
-            .get("http://localhost:5000/api/notices")
+            .get(`${import.meta.env.VITE_API_URL}/api/notices`)
             .catch(() => ({ data: [] })),
           axios
-            .get("http://localhost:5000/api/properties")
+            .get(`${import.meta.env.VITE_API_URL}/api/properties`)
             .catch(() => ({ data: [] })),
         ]);
 
@@ -180,7 +180,7 @@ export default function Profile() {
 
     try {
       const res = await axios.patch(
-        `http://localhost:5000/api/login/admin-force-reset`,
+        `${import.meta.env.VITE_API_URL}/api/login/admin-force-reset`,
         {
           email: residentEmail,
           newPassword: newPass,
@@ -199,7 +199,7 @@ export default function Profile() {
     e.stopPropagation(); // Prevents the main card's onClick from firing
     try {
       const res = await axios.put(
-        `http://localhost:5000/api/login/mark-done/${requestId}`,
+        `${import.meta.env.VITE_API_URL}/api/login/mark-done/${requestId}`,
       );
       if (res.data.success) {
         // Update local state to remove the item instantly

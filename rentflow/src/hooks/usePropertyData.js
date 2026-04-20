@@ -12,7 +12,9 @@ export function usePropertyData() {
 
   const syncWithDatabase = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/properties");
+      const res = await axios.get(
+        `${import.meta.env.VITE_API_URL}/api/properties`,
+      );
 
       if (res.data && res.data.length > 0) {
         const dbData = res.data.map((p) => ({
@@ -37,7 +39,7 @@ export function usePropertyData() {
     try {
       // Update DB
       await axios.patch(
-        `http://localhost:5000/api/properties/${updatedData.id}`,
+        `${import.meta.env.VITE_API_URL}/api/properties/${updatedData.id}`,
         {
           vac: updatedData.vac,
           tenants: updatedData.tenants,

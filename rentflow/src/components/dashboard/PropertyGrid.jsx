@@ -9,7 +9,9 @@ export default function PropertyGrid() {
     // 1. This "hits go" on your API
     const fetchData = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/properties");
+        const res = await axios.get(
+          `${import.meta.env.VITE_API_URL}/api/properties`,
+        );
         setProperties(res.data); // This is your list of 4 houses
       } catch (err) {
         console.error("Connection failed:", err);

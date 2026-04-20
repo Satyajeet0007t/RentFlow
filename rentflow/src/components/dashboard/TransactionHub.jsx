@@ -13,7 +13,9 @@ export default function TransactionHub() {
 
   const fetchTransactions = useCallback(async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/transactions");
+      const res = await axios.get(
+        `${import.meta.env.VITE_API_URL}/api/transactions`,
+      );
       setTransactions(res.data);
     } catch (err) {
       console.error("Fetch Error:", err);
@@ -30,7 +32,7 @@ export default function TransactionHub() {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/transactions",
+        `${import.meta.env.VITE_API_URL}/api/transactions`,
         formData,
       );
 
@@ -52,7 +54,7 @@ export default function TransactionHub() {
   const handleSettlePayment = async (utr) => {
     try {
       await axios.patch(
-        `http://localhost:5000/api/transactions/${selectedTx._id}`,
+        `${import.meta.env.VITE_API_URL}/api/transactions/${selectedTx._id}`,
         {
           utr: utr,
           paidAt: new Date().toLocaleDateString("en-IN"),
@@ -68,7 +70,9 @@ export default function TransactionHub() {
   const handleDelete = async (id) => {
     if (!window.confirm("Delete record?")) return;
     try {
-      await axios.delete(`http://localhost:5000/api/transactions/${id}`);
+      await axios.delete(
+        `${import.meta.env.VITE_API_URL}/api/transactions/${id}`,
+      );
       setTransactions((prev) => prev.filter((t) => t._id !== id));
     } catch (err) {
       alert("Delete failed");

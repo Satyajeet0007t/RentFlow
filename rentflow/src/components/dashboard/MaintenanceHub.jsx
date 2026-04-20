@@ -83,7 +83,9 @@ export default function MaintenanceHub() {
   const fetchItems = async () => {
     try {
       setLoading(true);
-      const res = await axios.get("http://localhost:5000/api/maintenance");
+      const res = await axios.get(
+        `${import.meta.env.VITE_API_URL}/api/maintenance`,
+      );
       console.log("API Response:", res.data); // DEBUG: Check if data exists for the wing
       setData(res.data);
     } catch (err) {
@@ -116,7 +118,7 @@ export default function MaintenanceHub() {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/maintenance",
+        `${import.meta.env.VITE_API_URL}/api/maintenance`,
         payload,
       );
       console.log("Success:", response.data);
@@ -130,7 +132,9 @@ export default function MaintenanceHub() {
   };
   const markDone = async (id) => {
     try {
-      await axios.patch(`http://localhost:5000/api/maintenance/${id}`);
+      await axios.patch(
+        `${import.meta.env.VITE_API_URL}/api/maintenance/${id}`,
+      );
       fetchItems();
     } catch (err) {
       console.error(err);
@@ -140,7 +144,9 @@ export default function MaintenanceHub() {
   const deleteItem = async (id) => {
     if (window.confirm("Permanent delete?")) {
       try {
-        await axios.delete(`http://localhost:5000/api/maintenance/${id}`);
+        await axios.delete(
+          `${import.meta.env.VITE_API_URL}/api/maintenance/${id}`,
+        );
         fetchItems();
       } catch (err) {
         console.error(err);
