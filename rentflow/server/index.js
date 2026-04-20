@@ -26,6 +26,17 @@ app.use(
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+const corsOptions = {
+  origin: [
+    "http://localhost:5173", // For your local testing
+    "https://your-vercel-app-name.vercel.app", // ADD YOUR LIVE VERCEL URL HERE
+  ],
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
+
 // 3. --- DATABASE CONNECTION ---
 connectDB();
 
