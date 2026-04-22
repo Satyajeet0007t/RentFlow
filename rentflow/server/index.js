@@ -42,8 +42,11 @@ const corsOptions = {
   optionsSuccessStatus: 200,
 };
 
+// Apply CORS to all routes
 app.use(cors(corsOptions));
-app.options("(.*)", cors(corsOptions));
+
+// FIXED: Using the named parameter syntax for modern Express compatibility
+app.options("/:path*", cors(corsOptions));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
