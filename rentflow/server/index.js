@@ -16,27 +16,38 @@ const loginRoute = require("./routes/login");
 const app = express();
 
 // 2. --- MIDDLEWARE ---
-app.use(
-  cors({
-    // Replace "*" with your actual Vercel URL
-    origin: "https://rent-flow-lilac.vercel.app",
-    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
-    credentials: true,
-  }),
-);
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+
+// List all URLs allowed to talk to your backend
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://rent-flow-lilac.vercel.app",
+  "https://rent-flow-15hmrfeck-satyajits-projects-9502c1f8.vercel.app", // Your Vercel Preview URL
+];
 
 const corsOptions = {
-  origin: ["http://localhost:5173", "https://rent-flow-lilac.vercel.app"],
-  methods: ["GET", "POST", "PUT", "DELETE"],
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps) or if in allowedOrigins list
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  // CRITICAL: Added PATCH and OPTIONS here
+  methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
   credentials: true,
   optionsSuccessStatus: 200,
 };
 
+// Apply the single CORS configuration
 app.use(cors(corsOptions));
 
+// Handle the browser's "Preflight" (OPTIONS) request globally
 app.options("*", cors(corsOptions));
+
+// JSON and URL Parsers
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // 3. --- DATABASE CONNECTION ---
 connectDB();
