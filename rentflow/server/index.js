@@ -17,36 +17,34 @@ const app = express();
 
 // 2. --- MIDDLEWARE ---
 
-// List all URLs allowed to talk to your backend
 const allowedOrigins = [
   "http://localhost:5173",
   "https://rent-flow-lilac.vercel.app",
 ];
 
-const corsOptions = {
-  origin: function (origin, callback) {
-    // Check if origin exists AND (is in our list OR ends with .vercel.app)
-    if (
-      !origin ||
-      allowedOrigins.includes(origin) ||
-      origin.endsWith(".vercel.app")
-    ) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
-  methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
-  credentials: true,
-  optionsSuccessStatus: 200,
-};
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      // Allow all Vercel previews and our main links
+      if (
+        !origin ||
+        allowedOrigins.includes(origin) ||
+        origin.endsWith(".vercel.app")
+      ) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"], // Critical for PATCH
+    credentials: true,
+  }),
+);
 
-// Apply the CORS configuration
-app.use(cors(corsOptions));
-
-// Handle the browser's "Preflight" (OPTIONS) request globally
-// This is the specific fix for the "Method PATCH is not allowed" error
 app.options("*", cors(corsOptions));
+
+app.use(cors(corsOptions));
 
 // JSON and URL Parsers
 app.use(express.json());
