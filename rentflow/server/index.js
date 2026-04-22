@@ -21,7 +21,7 @@ const app = express();
 const allowedOrigins = [
   "http://localhost:5173",
   "https://rent-flow-lilac.vercel.app",
-  "https://rent-flow-15hmrfeck-satyajits-projects-9502c1f8.vercel.app", // Your Vercel Preview URL
+  "https://rent-flow-15hmrfeck-satyajits-projects-9502c1f8.vercel.app", // The URL from your error
 ];
 
 const corsOptions = {
@@ -30,25 +30,27 @@ const corsOptions = {
     if (!origin || allowedOrigins.indexOf(origin) !== -1) {
       callback(null, true);
     } else {
+      console.log("CORS Blocked Origin:", origin); // Helpful for debugging
       callback(new Error("Not allowed by CORS"));
     }
   },
-  // CRITICAL: Added PATCH and OPTIONS here
+  // CRITICAL: PATCH and OPTIONS are the keys to fixing your error
   methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true,
   optionsSuccessStatus: 200,
 };
 
-// Apply the single CORS configuration
+// Apply the CORS configuration
 app.use(cors(corsOptions));
 
 // Handle the browser's "Preflight" (OPTIONS) request globally
+// This is the specific fix for the "Method PATCH is not allowed" error
 app.options("*", cors(corsOptions));
 
 // JSON and URL Parsers
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
 // 3. --- DATABASE CONNECTION ---
 connectDB();
 
