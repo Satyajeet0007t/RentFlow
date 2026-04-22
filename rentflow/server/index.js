@@ -35,7 +35,16 @@ const corsOptions = {
   credentials: true,
 };
 
-app.use(cors(corsOptions));
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+      "https://rent-flow-lilac.vercel.app", // Your Vercel URL
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"], // Added PATCH and OPTIONS
+    credentials: true,
+  }),
+);
 
 // 3. --- DATABASE CONNECTION ---
 connectDB();
